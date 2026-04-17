@@ -113,6 +113,19 @@ This chart shows how transaction failure rate varies across different hours of t
 
 ![Failure Rate by Hour](dashboard/failure_rate_by_hour.png)
 
+## 💳 Failure Rate by Payment Method
+
+![Failure by Method](dashboard/failure_rate_by_method.png)
+
+### Key Insight
+
+Failure rates vary across payment methods, indicating that some channels are less reliable.
+
+Higher failure rates may be associated with:
+- External bank system issues
+- Payment gateway instability
+- Method-specific transaction limits or security checks
+  
 ---
 
 ## 🔍 Key Insights
