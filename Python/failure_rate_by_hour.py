@@ -1,56 +1,28 @@
-## Failure Analysis by Time
+import pandas as pd
+import matplotlib.pyplot as plt
 
-### Objective
+# Load data
+df = pd.read_csv("failure_by_hour.csv")
 
-To identify whether transaction failures are concentrated during specific hours of the day, which may indicate time-based load issues or external dependency constraints.
+# Sort by hour
+df = df.sort_values("hour_of_day")
 
-### SQL Query
+# Plot line chart
+plt.figure(figsize=(10, 5))
+plt.plot(
+    df["hour_of_day"],
+    df["failure_rate_percentage"],
+    marker="o"
+)
 
-```sql
-SELECT 
-    HOUR(initiated_at) AS hour_of_day,
-    COUNT(*) AS total_transactions,
-    SUM(CASE 
-        WHEN transaction_status = 'failed' THEN 1 
-        ELSE 0 
-    END) AS failed_transactions,
-    ROUND(
-        SUM(CASE 
-            WHEN transaction_status = 'failed' THEN 1 
-            ELSE 0 
-        END) * 100.0 / COUNT(*),
-    2) AS failure_rate_percentage
-FROM payment_project.transactions
-GROUP BY HOUR(initiated_at)
-ORDER BY hour_of_day;
-```
+# Labels
+plt.xlabel("Hour of Day")
+plt.ylabel("Failure Rate (%)")
+plt.title("Transaction Failure Rate by Hour")
 
-### Visualization
+# Ticks + grid
+plt.xticks(range(0, 24))
+plt.grid(True)
 
-![Failure Rate by Hour](dashboard/charts/failure_rate_by_hour.png)
-
-### Key Insight
-
-The failure rate varies significantly by hour, ranging from roughly **8.4% to 15.9%**.
-This indicates that transaction failures are **not random**, but follow a time-based pattern.
-
-Two notable peak periods appear around:
-
-* **05:00–06:00**
-* **18:00–20:00**
-
-These periods show the highest failure rates, suggesting possible:
-
-* higher transaction load
-* external system latency
-* bank/gateway processing constraints during peak traffic windows
-
-### Business Implication
-
-This finding suggests that transaction reliability is partially influenced by hourly system conditions rather than only by isolated transaction-level issues.
-
-It supports the earlier pain point analysis around:
-
-* long waiting time
-* unclear payment status
-* delayed response from external systems
+# Show chart
+plt.show()
