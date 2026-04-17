@@ -174,11 +174,3 @@ Improving reliability requires a combination of:
 - Smart retry strategies
 
 ---
-
-## 📎 Detailed Analysis
-
-- [Task 10 – Data Exploration](docs/task_10_data_exploration.md)
-- [Task 12 – Failure Rate](docs/task_12_failure_rate.md)
-- [Task 13 – Failure by Time](docs/task_13_failure_by_time.md)
-- [Task 14 – Failure by Method](docs/task_14_failure_by_method.md)
-- [Task 15 – Dashboard Summary](docs/task_15_dashboard_summary.md)
