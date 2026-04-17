@@ -1,192 +1,184 @@
-# Fintech Payment Reliability Analysis
+# 📊 Fintech Payment Reliability Analysis
 
 ## 📌 Project Overview
 
 This project analyzes transaction failures in a digital wallet payment system to identify key reliability issues and propose data-driven improvements.
 
-The objective is to:
-
-* Improve transaction success rate
-* Enhance user experience during payment
-* Reduce potential revenue loss caused by failed transactions
+The goal is to:
+- Improve transaction success rate
+- Enhance user experience
+- Reduce potential revenue loss caused by failed payments
 
 ---
 
-## 🚨 Problem Statement
+## ❗ Problem Statement
 
 Users experience a relatively high transaction failure rate (~12%), leading to:
+- Frustration and uncertainty
+- Reduced trust in the system
+- Potential drop in conversion and revenue
 
-* Frustration during payment
-* Reduced trust in the platform
-* Increased risk of revenue loss due to abandoned transactions
-
-The problem is not only technical but also related to system feedback and retry handling.
-
----
-
-## 🎯 Key Objectives
-
-* Measure and analyze transaction success vs failure
-* Identify patterns of failure by time and payment method
-* Understand root causes of transaction failures
-* Provide insights to improve system reliability
+The project aims to uncover **why transactions fail** and **how to improve system reliability**.
 
 ---
 
-## 🗂️ Data Structure
+## 🧠 Approach
 
-The dataset is structured into 3 main tables:
+The project follows a structured end-to-end analysis process:
 
-### 1. Transactions
+### 1. Business Analysis (BA)
+- Defined problem and KPIs
+- Mapped payment flow
+- Identified pain points across:
+  - UX
+  - System
+  - External dependencies
 
-* transaction_id
-* user_id
-* payment_id
-* order_id
-* amount
-* transaction_status (success, failed, timeout, pending)
-* failure_reason
-* initiated_at
-* completed_at
-* retry_flag
+### 2. Data Analysis (DA)
+- Designed data schema (transactions, users, payments)
+- Explored and cleaned dataset using SQL
+- Built key metrics:
+  - Failure Rate
+  - Timeout Rate
+  - Retry Rate
+- Analyzed failure patterns:
+  - By time
+  - By payment method
 
-### 2. Users
-
-* user_id
-* registration_date
-* user_type
-* account_status
-
-### 3. Payments
-
-* payment_id
-* payment_method
-* gateway_name
-* bank_name
-* payment_channel
+### 3. Visualization
+- Used Python (Pandas, Matplotlib) to create analytical charts
 
 ---
 
-## 📊 Data Analysis
+## 📊 Key Metrics
 
-### 1. Failure Rate Calculation
+- **Total Transactions:** ~19,566  
+- **Failure Rate:** ~12%  
+- **Retry Rate:** ~5–6%  
 
-```sql
-SELECT 
-    COUNT(CASE WHEN transaction_status = 'failed' THEN 1 END) * 100.0 
-    / COUNT(*) AS failure_rate_percentage
-FROM transactions;
-```
+👉 Indicates a significant system reliability issue.
 
 ---
 
-### 2. Failure Distribution by Status
+## ⏰ Failure Pattern by Time
 
-```sql
-SELECT 
-    transaction_status,
-    COUNT(*) AS total
-FROM transactions
-GROUP BY transaction_status
-ORDER BY total DESC;
-```
+![Failure by Time](dashboard/failure_rate_by_hour.png)
 
----
+### 🔍 Insight
 
-### 3. Failure Reasons Analysis
+- Failure rate varies significantly throughout the day (~8% → ~16%)
+- Peak failure periods:
+  - **05:00 – 06:00**
+  - **18:00 – 20:00**
 
-```sql
-SELECT 
-    failure_reason,
-    COUNT(*) AS total
-FROM transactions
-WHERE transaction_status IN ('failed', 'timeout')
-GROUP BY failure_reason
-ORDER BY total DESC;
-```
+### 🧠 Interpretation
+
+- High traffic during peak hours increases system load
+- External systems (banks, gateways) may respond slower → timeout risk
 
 ---
 
-## 📊 Transaction Failure Rate by Hour
-
-This chart shows how transaction failure rate varies across different hours of the day.
-
-![Failure Rate by Hour](dashboard/failure_rate_by_hour.png)
-
-## 💳 Failure Rate by Payment Method
+## 💳 Failure by Payment Method
 
 ![Failure by Method](dashboard/failure_rate_by_method.png)
 
-### Key Insight
+### 🔍 Insight
 
-Failure rates vary across payment methods, indicating that some channels are less reliable.
+- **Bank card:** highest failure (~14%)
+- **E-wallet:** high (~13%)
+- **Linked bank:** moderate (~12%)
+- **Wallet balance:** lowest (~8%)
 
-Higher failure rates may be associated with:
-- External bank system issues
+### 🧠 Interpretation
+
+- Payment methods relying on **external systems** are less reliable
+- Internal wallet balance is the most stable option
+
+---
+
+## 🔍 Root Cause Analysis
+
+Transaction failures are mainly driven by:
+
+### 1. External System Dependency
+- Bank response delays
 - Payment gateway instability
-- Method-specific transaction limits or security checks
-  
----
 
-## 🔍 Key Insights
+### 2. Time-based Load Issues
+- Peak hours → higher failure rates
 
-* Failure rate fluctuates significantly by hour (~8% → ~16%)
-* Two peak failure periods observed:
+### 3. Lack of Retry Mechanism
+- Low retry success rate
+- No structured retry flow
 
-  * **05:00 – 06:00**
-  * **18:00 – 20:00**
-* Possible causes:
-
-  * High transaction load during peak hours
-  * External system latency (bank/gateway)
-* Retry attempts exist but are not highly effective
+### 4. Poor User Experience
+- No real-time status feedback
+- Unclear failure messages
 
 ---
 
-## 🧠 Key Findings
+## 🚀 Business Impact
 
-From both system flow and data analysis:
-
-* Lack of real-time status feedback causes user uncertainty
-* External bank delays contribute significantly to failures
-* Error messages are unclear → users don’t know what to do next
-* No structured retry mechanism → low recovery rate
+- Lower payment success rate  
+- Increased user frustration  
+- Potential revenue loss  
 
 ---
 
 ## 💡 Recommendations
 
-* Implement real-time transaction status updates
-* Improve error message clarity with actionable guidance
-* Introduce structured retry mechanism
-* Monitor peak-hour system performance and optimize capacity
+### 🔹 Improve System Reliability
+- Optimize integration with bank APIs
+- Monitor and improve gateway performance
+
+### 🔹 Implement Smart Retry Mechanism
+- Auto-retry for timeout transactions
+- Suggest alternative payment methods
+
+### 🔹 Enhance User Experience
+- Provide real-time transaction status
+- Show clear and actionable error messages
+
+### 🔹 Optimize for Peak Hours
+- Scale system capacity during high-load periods
 
 ---
 
-## 🛠️ Tech Stack
-
-* SQL (MySQL) → Data extraction & analysis
-* Python (Pandas, Matplotlib) → Data visualization
-* GitHub → Project version control & documentation
-
----
-
-## 📁 Project Structure
-
-```
+## 📂 Project Structure
 payment-reliability-analysis/
-├── Python/
-├── mysql/
-├── dashboard/
-│   └── failure_rate_by_hour.png
+│
+├── dashboard/ # Charts
+├── docs/ # Detailed analysis (by task)
+├── mysql/ # SQL scripts
+├── python/ # Python visualization scripts
 ├── README.md
-```
+
 
 ---
 
-## 👤 Author
+## 🛠️ Tools & Technologies
 
-**Phạm Tiến Thành**
-Business Analyst / Data Analyst (Intern Level)
+- **SQL (MySQL)** – Data analysis
+- **Python (Pandas, Matplotlib)** – Visualization
+- **GitHub** – Version control & project showcase
 
 ---
+
+## 🧠 Final Conclusion
+
+> Transaction failures are not random — they are driven by system design limitations, external dependencies, and peak-hour load.
+
+Improving reliability requires a combination of:
+- System optimization
+- Better UX design
+- Smart retry strategies
+
+---
+
+## 📎 Detailed Analysis
+
+- [Task 10 – Data Exploration](docs/task_10_data_exploration.md)
+- [Task 12 – Failure Rate](docs/task_12_failure_rate.md)
+- [Task 13 – Failure by Time](docs/task_13_failure_by_time.md)
+- [Task 14 – Failure by Method](docs/task_14_failure_by_method.md)
+- [Task 15 – Dashboard Summary](docs/task_15_dashboard_summary.md)
