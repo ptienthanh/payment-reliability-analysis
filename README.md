@@ -2,61 +2,66 @@
 
 ## 📌 Project Overview
 
-This project analyzes transaction failures in a digital wallet payment system to identify key reliability issues and propose data-driven improvements.
+This project analyzes transaction failures in a digital wallet system to identify key reliability issues and propose data-driven improvements.
 
 The goal is to:
-- Improve transaction success rate
-- Enhance user experience
-- Reduce potential revenue loss caused by failed payments
+
+* Improve transaction success rate
+* Enhance user experience during payment
+* Reduce potential revenue loss caused by failed transactions
 
 ---
 
 ## ❗ Problem Statement
 
 Users experience a relatively high transaction failure rate (~12%), leading to:
-- Frustration and uncertainty
-- Reduced trust in the system
-- Potential drop in conversion and revenue
 
-The project aims to uncover **why transactions fail** and **how to improve system reliability**.
+* Frustration during payment
+* Reduced trust in the platform
+* Potential revenue loss due to abandoned transactions
+
+This problem is not only technical but also related to system feedback and retry handling.
 
 ---
 
 ## 🧠 Approach
 
-The project follows a structured end-to-end analysis process:
+### 1. Business Analysis
 
-### 1. Business Analysis (BA)
-- Defined problem and KPIs
-- Mapped payment flow
-- Identified pain points across:
-  - UX
-  - System
-  - External dependencies
+* Defined problem and KPIs
+* Mapped payment flow
+* Identified pain points across:
 
-### 2. Data Analysis (DA)
-- Designed data schema (transactions, users, payments)
-- Explored and cleaned dataset using SQL
-- Built key metrics:
-  - Failure Rate
-  - Timeout Rate
-  - Retry Rate
-- Analyzed failure patterns:
-  - By time
-  - By payment method
+  * UX (unclear status, poor messaging)
+  * System (timeout, retry issues)
+  * External dependencies (bank, gateway)
+
+### 2. Data Analysis
+
+* Designed data schema: `transactions`, `users`, `payments`
+* Cleaned and explored dataset using SQL
+* Built key metrics:
+
+  * Failure Rate
+  * Retry Rate
+* Analyzed failure patterns:
+
+  * By time
+  * By payment method
 
 ### 3. Visualization
-- Used Python (Pandas, Matplotlib) to create analytical charts
+
+* Used Python (Pandas, Matplotlib) to visualize insights
 
 ---
 
 ## 📊 Key Metrics
 
-- **Total Transactions:** ~19,566  
-- **Failure Rate:** ~12%  
-- **Retry Rate:** ~5–6%  
+* **Total Transactions:** ~19,566
+* **Failure Rate:** ~12%
+* **Retry Rate:** ~5–6%
 
-👉 Indicates a significant system reliability issue.
+👉 Indicates a significant reliability issue affecting both UX and business performance.
 
 ---
 
@@ -64,17 +69,18 @@ The project follows a structured end-to-end analysis process:
 
 ![Failure by Time](dashboard/failure_rate_by_hour.png)
 
-### 🔍 Insight
+**Insight:**
 
-- Failure rate varies significantly throughout the day (~8% → ~16%)
-- Peak failure periods:
-  - **05:00 – 06:00**
-  - **18:00 – 20:00**
+* Failure rate fluctuates (~8% → ~16%)
+* Peaks at:
 
-### 🧠 Interpretation
+  * 05:00–06:00
+  * 18:00–20:00
 
-- High traffic during peak hours increases system load
-- External systems (banks, gateways) may respond slower → timeout risk
+**Interpretation:**
+
+* Higher system load during peak hours
+* External system latency (bank/gateway) increases failure risk
 
 ---
 
@@ -82,17 +88,17 @@ The project follows a structured end-to-end analysis process:
 
 ![Failure by Method](dashboard/failure_rate_by_method.png)
 
-### 🔍 Insight
+**Insight:**
 
-- **Bank card:** highest failure (~14%)
-- **E-wallet:** high (~13%)
-- **Linked bank:** moderate (~12%)
-- **Wallet balance:** lowest (~8%)
+* Bank card: highest failure (~14%)
+* E-wallet: high (~13%)
+* Linked bank: moderate (~12%)
+* Wallet balance: lowest (~8%)
 
-### 🧠 Interpretation
+**Interpretation:**
 
-- Payment methods relying on **external systems** are less reliable
-- Internal wallet balance is the most stable option
+* External-dependent methods are less reliable
+* Internal balance-based transactions are more stable
 
 ---
 
@@ -100,77 +106,72 @@ The project follows a structured end-to-end analysis process:
 
 Transaction failures are mainly driven by:
 
-### 1. External System Dependency
-- Bank response delays
-- Payment gateway instability
+* **External system dependency**
+  (bank delays, gateway instability)
 
-### 2. Time-based Load Issues
-- Peak hours → higher failure rates
+* **Time-based load issues**
+  (peak hours → higher failure)
 
-### 3. Lack of Retry Mechanism
-- Low retry success rate
-- No structured retry flow
+* **Lack of structured retry mechanism**
+  (low retry success rate)
 
-### 4. Poor User Experience
-- No real-time status feedback
-- Unclear failure messages
+* **Poor UX feedback**
+  (no real-time status, unclear error messages)
 
 ---
 
 ## 🚀 Business Impact
 
-- Lower payment success rate  
-- Increased user frustration  
-- Potential revenue loss  
+* Reduced payment success rate
+* Increased user frustration
+* Potential revenue loss
 
 ---
 
 ## 💡 Recommendations
 
-### 🔹 Improve System Reliability
-- Optimize integration with bank APIs
-- Monitor and improve gateway performance
-
-### 🔹 Implement Smart Retry Mechanism
-- Auto-retry for timeout transactions
-- Suggest alternative payment methods
-
-### 🔹 Enhance User Experience
-- Provide real-time transaction status
-- Show clear and actionable error messages
-
-### 🔹 Optimize for Peak Hours
-- Scale system capacity during high-load periods
+* Improve integration with bank APIs and payment gateways
+* Implement smart retry mechanism for failed transactions
+* Provide real-time transaction status to users
+* Improve error messages with clear guidance
+* Scale system capacity during peak hours
 
 ---
 
 ## 📂 Project Structure
-payment-reliability-analysis/
-│
-├── dashboard/ # Charts
-├── docs/ # Detailed analysis (by task)
-├── mysql/ # SQL scripts
-├── python/ # Python visualization scripts
-├── README.md
 
+```
+payment-reliability-analysis/
+├── dashboard/      # Charts
+├── docs/           # Detailed analysis
+├── mysql/          # SQL scripts
+├── python/         # Visualization scripts
+├── README.md
+```
 
 ---
 
 ## 🛠️ Tools & Technologies
 
-- **SQL (MySQL)** – Data analysis
-- **Python (Pandas, Matplotlib)** – Visualization
-- **GitHub** – Version control & project showcase
+* SQL (MySQL)
+* Python (Pandas, Matplotlib)
+* GitHub
 
 ---
 
 ## 🧠 Final Conclusion
 
-> Transaction failures are not random — they are driven by system design limitations, external dependencies, and peak-hour load.
+Transaction failures are not random — they are driven by system design limitations, external dependencies, and peak-hour load.
 
 Improving reliability requires a combination of:
-- System optimization
-- Better UX design
-- Smart retry strategies
 
+* System optimization
+* Better UX design
+* Smart retry strategies
+  
 ---
+
+## 👤 Author
+
+Phạm Tiến Thành
+Business Analyst / Data Analyst (Intern Level)
