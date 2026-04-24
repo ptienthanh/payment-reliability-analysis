@@ -1,273 +1,171 @@
 # 💳 Payment Reliability Analysis
 
-## 📌 Project Overview
+## 📌 Overview
 
-This project analyzes **transaction failures in a digital wallet system** to identify key issues affecting payment reliability and user experience.
+This project analyzes **transaction failures in a digital wallet system** using SQL and Python to identify patterns affecting payment reliability.
 
-The goal is to:
+Focus:
 
-* Understand why transactions fail
-* Quantify business impact
-* Provide actionable recommendations to improve system performance
-
----
-
-## ⚡ Executive Summary
-
-* **Failure rate:** ~12% of total transactions
-* **Peak failure periods:** 05:00–06:00 and 18:00–20:00
-* **High-risk methods:** Bank Transfer, QR Payment
-* **Core issue:** Lack of structured retry mechanism + poor real-time feedback
-
-### 💼 Business Impact
-
-* Reduced conversion rate
-* Poor user experience → increased drop-off
-* Potential revenue loss
-
-### 🎯 Key Actions (Priority Order)
-
-1. Implement smart retry mechanism
-2. Improve real-time transaction status
-3. Optimize system during peak hours
-4. Monitor and evaluate payment partners
+* Data analysis (SQL)
+* Pattern detection (time & payment method)
+* Visualization (Python)
+* Insight generation
 
 ---
 
-## 🧠 Problem Statement
+## 📊 Dataset Summary
 
-Digital payment systems must ensure **high success rates and fast processing**.
+* Total transactions: **19,566**
+* Users: ~3,000
+* Payment methods: 12
+* Failure rate: **~12%**
 
-However, transaction failures can:
-
-* Frustrate users
-* Reduce trust in the platform
-* Directly impact revenue
-
-This project investigates:
-
-> **Why do transactions fail, and how can we improve payment reliability?**
-
----
-
-## 📊 Data Overview
-
-### Main Tables
-
-* **transactions**
-
-  * transaction_id
-  * user_id
-  * status (success / failed / pending)
-  * retry_flag
-  * failure_reason
-  * initiated_at
-  * completed_at
-
-* **payments**
-
-  * payment_id
-  * transaction_id
-  * payment_method
-  * gateway_name
-  * bank_name
+👉 Significantly higher than expected benchmark (≤2%)
 
 ---
 
 ## 🔍 Analysis Approach
 
-### 1. Data Exploration
+Key questions:
 
-* Row counts, missing values, duplicates
-* Status distribution
-* Retry behavior
-
-### 2. Data Cleaning
-
-* Remove inconsistencies
-* Validate transaction timestamps
-* Standardize status values
-
-### 3. KPI Definition
-
-* **Failure Rate**
-* **Retry Rate**
-* **Failure by Time**
-* **Failure by Payment Method**
+1. When do failures occur?
+2. Which payment methods are most affected?
 
 ---
 
-## 📈 Key Insights
+## 📈 Failure Rate by Hour
 
-### 1. Failure Rate is Significant (~12%)
+![Failure Rate by Hour](dashboard/failure_rate_by_hour.png)
 
-* Indicates a major reliability issue
-* Impacts both revenue and user trust
+### Insight
 
----
+* Failure peaks at:
 
-### 2. Peak Failure Occurs at Specific Hours
+  * **05:00–06:00**
+  * **18:00–20:00**
 
-![Failure by Hour](dashboard/failure_rate_by_hour.png)
+👉 Indicates:
 
-* High failure during:
-
-  * Early morning (05–06h)
-  * Evening peak (18–20h)
-
-👉 Suggests:
-
-* System overload
-* External service latency
+* Peak-hour load pressure
+* External system delays
 
 ---
 
-### 3. Payment Method Matters
+## 💳 Failure Rate by Payment Method
 
-![Failure by Method](dashboard/failure_rate_by_method.png)
+![Failure Rate by Method](dashboard/failure_rate_by_method.png)
 
-* Bank Transfer and QR Payment have higher failure rates
-* Wallet balance shows better performance
+### Insight
 
-👉 Suggests:
+* **Bank / QR → higher failure**
+* **Wallet balance → more stable**
 
-* External dependencies (banks/gateways)
-* Integration instability
-
----
-
-### 4. Retry Mechanism is Underutilized
-
-* Low retry rate compared to failure rate
-* Many failed transactions are not recovered
-
-👉 Suggests:
-
-* Missing or ineffective retry logic
+👉 External dependency increases risk
 
 ---
 
-## 💰 Business Impact Analysis
+## 🧠 Core Insight
 
-### Assumptions
+Transaction failures are driven by:
 
-* Daily transactions: 10,000
-* Average order value: $20
+* External systems (bank, gateway)
+* Time-based load
+* Lack of recovery mechanisms
 
-### Estimated Revenue at Risk
-
-* Daily: **$24,000**
-* Monthly: **~$720,000**
-
-> Note: Not all failures lead to permanent loss, but poor retry handling reduces recovery rate.
-
-### Operational Impact
-
-* Increased support workload
-* Lower user trust
-* Higher checkout abandonment
+👉 Not random → systemic issue
 
 ---
 
-## 🛠️ Recommended Actions
+## 🚀 Solution Direction (High-Level)
 
-| Issue                | Evidence                  | Impact                    | Priority  | Owner       | Action                |
-| -------------------- | ------------------------- | ------------------------- | --------- | ----------- | --------------------- |
-| Peak-hour failures   | High failure rate by hour | Revenue loss              | 🔴 High   | Backend     | Scale system capacity |
-| Weak retry handling  | Low retry rate            | Lost recovery opportunity | 🔴 High   | Engineering | Implement smart retry |
-| Poor user feedback   | No real-time status       | UX drop-off               | 🟡 Medium | Product     | Improve UI feedback   |
-| External instability | High failure in bank/QR   | Dependency risk           | 🟡 Medium | Ops         | Monitor partners      |
+To improve reliability:
 
----
+* Introduce **smart retry mechanism**
+* Handle **timeouts with async processing**
+* Add **fallback routing**
+* Improve **user feedback (status & error messages)**
 
-## 🧩 Technical Implementation
-
-### SQL Analysis
-
-Located in `/mysql/`
-
-* `kpi_failure_rate.sql`
-* `failure_by_time.sql`
-* `failure_by_method.sql`
-* `explore_data.sql`
-* `clean_data.sql`
+👉 Focus: convert failures → recoverable transactions
 
 ---
 
-### Python Visualization
+## 📊 Expected Impact
 
-Located in `/python/`
+![Before vs After](dashboard/before_after_chart.png)
 
-* Generate charts for:
+### Estimated Improvements
 
-  * Failure by hour
-  * Failure by method
+* Success rate: **85% → 92%**
+* Failure rate: **15% → 8%**
+* Drop-off: **60% → 30%**
 
----
+👉 Biggest gain comes from:
 
-### Dashboard
-
-Located in `/dashboard/`
-
-* Failure Rate by Hour
-* Failure Rate by Payment Method
+* Recovering failed transactions (retry)
+* Reducing user abandonment
 
 ---
 
-## ▶️ How to Run This Project
+## ⚖️ Solution Prioritization
 
-1. Load dataset into MySQL
+![Impact vs Effort](dashboard/priority_matrix.png)
 
-2. Run SQL scripts in order:
+### Insight
 
-   ```
-   create_tables.sql
-   explore_data.sql
-   clean_data.sql
-   kpi_failure_rate.sql
-   failure_by_time.sql
-   failure_by_method.sql
-   ```
+* **Quick wins:** UX improvements (error message, retry guidance)
+* **Strategic:** retry system, async processing
 
-3. Run Python scripts:
+👉 Balance between:
 
-   ```
-   python failure_rate_by_hour.py
-   python failure_rate_by_method.py
-   ```
-
-4. View output charts in `/dashboard`
+* Short-term impact
+* Long-term system reliability
 
 ---
 
-## 📌 Key Takeaways
+## 🛠️ Tech Stack
 
-* Payment reliability is a **critical business metric**
-
-* Failures are driven by both:
-
-  * Internal system limitations
-  * External dependencies
-
-* Improving retry logic and system performance can:
-
-  * Increase success rate
-  * Recover lost revenue
-  * Improve user trust
+* SQL (MySQL)
+* Python (Pandas, Matplotlib)
 
 ---
 
-## 🚀 Future Improvements
+## 📂 Project Structure
 
-* Add failure reason analysis
-* Implement retry success tracking
-* Analyze latency and timeout issues
-* Build interactive dashboard (Tableau / Power BI)
-* Simulate real-time monitoring system
+```bash id="g3hz2r"
+payment-reliability-analysis/
+│
+├── mysql/        # SQL queries
+├── python/       # Python scripts
+├── dashboard/    # charts
+└── README.md
+```
 
 ---
 
-## 👤 Author
+## ▶️ How to Run
 
-Thanh Pham
-Aspiring Business Analyst / Data Analyst
+```sql id="rrwh5t"
+create_tables.sql
+explore_data.sql
+clean_data.sql
+kpi_failure_rate.sql
+failure_by_time.sql
+failure_by_method.sql
+```
+
+```bash id="y4rj3l"
+python failure_rate_by_hour.py
+python failure_rate_by_method.py
+```
+
+---
+
+## 📌 What This Project Shows
+
+* SQL-based data analysis
+* Pattern detection from real-world data
+* Visualization using Python
+* Understanding of system reliability in fintech
+
+---
+
