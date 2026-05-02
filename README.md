@@ -59,7 +59,7 @@ Key questions:
 
 ---
 
-## 💳 Failure Rate by Payment Method
+## Failure Rate by Payment Method
 
 ![Failure Rate by Method](dashboard/failure_rate_by_method.png)
 
@@ -72,7 +72,7 @@ Key questions:
 
 ---
 
-## 🧠 Core Insight
+## Core Insight
 
 Transaction failures are driven by:
 
@@ -84,7 +84,7 @@ Transaction failures are driven by:
 
 ---
 
-## 🚀 Solution Direction (High-Level)
+## Solution Direction (High-Level)
 
 To improve reliability:
 
@@ -114,7 +114,7 @@ To improve reliability:
 
 ---
 
-## ⚖️ Solution Prioritization
+## Solution Prioritization
 
 ![Impact vs Effort](dashboard/priority_matrix.png)
 
@@ -130,7 +130,7 @@ To improve reliability:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * SQL (MySQL)
 * Python (Pandas, Matplotlib)
@@ -150,7 +150,7 @@ payment-reliability-analysis/
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ```sql id="rrwh5t"
 create_tables.sql
