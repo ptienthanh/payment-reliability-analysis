@@ -15,12 +15,20 @@ Focus:
 
 ## 📊 Dataset Summary
 
-* Total transactions: **19,566**
-* Users: ~3,000
-* Payment methods: 12
-* Failure rate: **~12%**
+- Total transactions: **19,566**
+- Users: **~3,000**
+- Payment methods: **12**
+- Failure rate: **~12%** → significantly higher than the expected benchmark (≤2%)
 
-👉 Significantly higher than expected benchmark (≤2%)
+> **Dataset note:** This project uses a simulated transaction dataset created for analysis practice.
+
+The dataset is structured around three main tables:
+
+- `users`
+- `payments`
+- `transactions`
+  
+→ This structure supports transaction-level analysis, payment method comparison, and failure pattern detection.
 
 ---
 
@@ -44,7 +52,7 @@ Key questions:
   * **05:00–06:00**
   * **18:00–20:00**
 
-👉 Indicates:
+→ Indicates:
 
 * Peak-hour load pressure
 * External system delays
@@ -60,7 +68,7 @@ Key questions:
 * **Bank / QR → higher failure**
 * **Wallet balance → more stable**
 
-👉 External dependency increases risk
+→ External dependency increases risk
 
 ---
 
@@ -72,7 +80,7 @@ Transaction failures are driven by:
 * Time-based load
 * Lack of recovery mechanisms
 
-👉 Not random → systemic issue
+→ Not random → systemic issue
 
 ---
 
@@ -85,7 +93,7 @@ To improve reliability:
 * Add **fallback routing**
 * Improve **user feedback (status & error messages)**
 
-👉 Focus: convert failures → recoverable transactions
+→ Focus: convert failures → recoverable transactions
 
 ---
 
@@ -99,7 +107,7 @@ To improve reliability:
 * Failure rate: **15% → 8%**
 * Drop-off: **60% → 30%**
 
-👉 Biggest gain comes from:
+→ Biggest gain comes from:
 
 * Recovering failed transactions (retry)
 * Reducing user abandonment
@@ -115,7 +123,7 @@ To improve reliability:
 * **Quick wins:** UX improvements (error message, retry guidance)
 * **Strategic:** retry system, async processing
 
-👉 Balance between:
+→ Balance between:
 
 * Short-term impact
 * Long-term system reliability
